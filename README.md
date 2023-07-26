@@ -1,6 +1,6 @@
 ## Description ##
 
-**hsh** is a simple UNIX command language interpreter that reads commands from either a file or standard input and executes them.
+This is a simple UNIX command language interpreter that reads commands from either a file or standard input and executes them.
 
 ### How **hsh** works
 * Prints a prompt and waits for a command from the user
@@ -31,7 +31,7 @@ $ echo "echo 'hello'" | ./hsh
 $
 ```
 
-If **hsh** is invoked with standard input connected to a terminal (determined by [isatty](https://linux.die.net/man/3/isatty)(3)), an *interactive* shell is opened. When executing interactively, **hsh** displays the prompt `$ ` when it is ready to read a command.
+When executing interactively, **hsh** displays the prompt `$ ` when it is ready to read a command.
 
 Example:
 ```
