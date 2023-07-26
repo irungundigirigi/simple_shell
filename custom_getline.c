@@ -31,7 +31,7 @@ int _getline(hsh_data *data)
 		do {
 			cmds_array[i] = str_dup(_strtok(i ? NULL : buff, "\n;"));
 
-			i = check_logic_ops(cmds_array, i, opr_array);
+			i = parse_logical_cmds(cmds_array, i, opr_array);
 		} while (cmds_array[i++]);
 	}
 
@@ -47,14 +47,14 @@ int _getline(hsh_data *data)
 
 
 /**
-* check_logic_ops - checks and split for && and || operators
+* parse_logical_cmds - checks and split for && and || operators
 * @cmds_array: array of the commands.
 * @i: index in the cmds_array to be checked
 * @array_operators: array of the logical operators for each previous command
 *
 * Return: index of the last command in the cmds_array.
 */
-int check_logic_ops(char *cmds_array[], int i, char array_operators[])
+int parse_logical_cmds(char *cmds_array[], int i, char array_operators[])
 {
 	char *temp = NULL;
 	int j = 0;

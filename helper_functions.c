@@ -150,3 +150,87 @@ void str_reverse(char *string)
 		string[len--] = temp;
 	}
 }
+
+/**
+ * long_to_string - convert no to a string.
+ * @number: number to be converted
+ * @string: buffer to save the num as string.
+ * @base: base for concersion
+ *
+ * Return: Nothing.
+ */
+void long_to_string(long number, char *string, int base)
+{
+	int i = 0, inNegative = 0;
+	long q = number;
+	char letters[] = {"0123456789abcdef"};
+
+	if (q == 0)
+		string[i++] = '0';
+
+	if (string[0] == '-')
+		inNegative = 1;
+
+	while (q)
+	{
+		if (q < 0)
+			string[i++] = letters[-(q % base)];
+		else
+			string[i++] = letters[q % base];
+		q /= base;
+	}
+	if (inNegative)
+		string[i++] = '-';
+
+	string[i] = '\0';
+	str_reverse(string);
+}
+
+
+/**
+ * _atoi - custom atoi func
+ *
+ * @s: pointer to str
+ * Return: 0, or string int
+ */
+int _atoi(char *s)
+{
+	int sign = 1;
+	unsigned int number = 0;
+
+	while (!('0' <= *s && *s <= '9') && *s != '\0')
+	{
+		if (*s == '-')
+			sign *= -1;
+		if (*s == '+')
+			sign *= +1;
+		s++;
+	}
+
+	while ('0' <= *s && *s <= '9' && *s != '\0')
+	{
+
+		number = (number * 10) + (*s - '0');
+		s++;
+	}
+	return (number * sign);
+}
+
+/**
+ * char_count - count the num of character in string.
+ *
+ * @string: pointer to str
+ * @character: string to be counted
+ * Return: 0, or string int
+ */
+int char_count(char *string, char *character)
+{
+	int i = 0, counter = 0;
+
+	for (; string[i]; i++)
+	{
+		if (string[i] == character[0])
+			counter++;
+	}
+	return (counter);
+}

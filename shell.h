@@ -59,7 +59,7 @@ void ctrl_c(int opr UNUSED);
 
 int _getline(hsh_data *data);
 
-int check_logic_ops(char *cmds_array[], int i, char array_operators[]);
+int parse_logical_cmds(char *cmds_array[], int i, char array_operators[]);
 
 void expand_variables(hsh_data *data);
 
@@ -89,7 +89,7 @@ int bltn_exit(hsh_data *data);
 
 int bltn_cd(hsh_data *data);
 
-int set_work_directory(hsh_data *data, char *new_dir);
+int set_working_dir(hsh_data *data, char *new_dir);
 
 int bltn_help(hsh_data *data);
 
@@ -130,7 +130,7 @@ void long_to_string(long number, char *string, int base);
 
 int _atoi(char *s);
 
-int count_characters(char *string, char *character);
+int char_count(char *string, char *character);
 
 /** alias functions **/
 int print_alias(hsh_data *data, char *alias);
