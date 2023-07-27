@@ -19,7 +19,11 @@ This is a simple UNIX command language interpreter that reads commands from eith
 ## Compilation
 
 
-`gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh`
+
+```
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+
+```
 
 
 ### Invocation
@@ -104,7 +108,6 @@ Upon receiving a command, **hsh** tokenizes it into words using `" "` as a delim
 
 ### Exit Status
 
-# Exit Status in hsh
 
 **hsh** returns the exit status of the last command executed. A value of zero indicates successful execution, while a non-zero value signifies a failure.
 
