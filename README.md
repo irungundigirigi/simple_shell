@@ -18,8 +18,8 @@ This is a simple UNIX command language interpreter that reads commands from eith
 
 ## Compilation
 
-```bash
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh ```
+
+`gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh`
 
 
 ### Invocation
@@ -28,7 +28,7 @@ Usage: **hsh** [filename]
 
 To invoke **hsh**, compile all `.c` files in the repository and run the resulting executable.
 
-**hsh** can be invoked both interactively and non-interactively. If **hsh** is invoked with standard input not connected to a terminal, it reads and executes received commands in order.
+**hsh** is versatile in its invocation, supporting both interactive and non-interactive modes. When hsh is invoked with standard input not connected to a terminal, it processes and executes the received commands sequentially.
 
 Example:
 ```
@@ -37,7 +37,7 @@ $ echo "echo 'hello'" | ./hsh
 $
 ```
 
-When executing interactively, **hsh** displays the prompt `$ ` when it is ready to read a command.
+When executing interactively, **hsh** displays the prompt `$ ` and waits for the command input.
 
 Example:
 ```
@@ -45,7 +45,7 @@ $./hsh
 $
 ```
 
-Alternatively, if command line arguments are supplied upon invocation, **hsh** treats the first argument as a file from which to read commands. The supplied file should contain one command per line. **hsh** runs each of the commands contained in the file in order before exiting.
+If command line arguments are provided during the invocation of **hsh**, the first argument is treated as a file from which the interpreter reads commands. Each line in the supplied file represents a single command. **hsh** executes these commands in the order they appear in the file before exiting
 
 Example:
 ```
@@ -58,10 +58,10 @@ $
 
 ### Environment
 
-Upon invocation, **hsh** receives and copies the environment of the parent process in which it was executed. This environment is an array of *name-value* strings describing variables in the format *NAME=VALUE*. A few key environmental variables are:
+Upon invocation, **hsh** receives and copies the environment of the parent process in which it was executed. This environment is an array of *name-value* strings describing variables in the format *NAME=VALUE*. Some examples of the env variables include:
 
 #### HOME
-The home directory of the current user and the default directory argument for the **cd** builtin command.
+The home directory and the default directory argument for the **cd** builtin command.
 
 ```
 $ echo "echo $HOME" | ./hsh
@@ -85,24 +85,30 @@ $ echo "echo $OLDPWD" | ./hsh
 ```
 
 #### PATH
-A colon-separated list of directories in which the shell looks for commands. A null directory name in the path (represented by any of two adjacent colons, an initial colon, or a trailing colon) indicates the current directory.
+A list of directories separated by colons is used by the shell to search for commands. If any directory name in the path is null, it signifies the current directory. This means that the shell will look for commands in the current directory if such a null directory is encountered.
 
 ```
 $ echo "echo $PATH" | ./hsh
-/home/projects/.cargo/bin:/home/projects/.local/bin:/home/projects/.rbenv/plugins/ruby-build/bin:/home/projects/.rbenv/shims:/home/projects/.rbenv/bin:/home/projects/.nvm/versions/node/v10.15.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/projects/.cargo/bin:/home/projects/workflow:/home/projects/.local/bin
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/snap/bin
 ```
 
 ### Command Execution
 
-After receiving a command, **hsh** tokenizes it into words using `" "` as a delimiter. The first word is considered the command and all remaining words are considered arguments to that command. **hsh** then proceeds with the following actions:
-1. If the first character of the command is neither a slash (`\`) nor dot (`.`), the shell searches for it in the list of shell builtins. If there exists a builtin by that name, the builtin is invoked.
-2. If the first character of the command is none of a slash (`\`), dot (`.`), nor builtin, **hsh** searches each element of the **PATH** environmental variable for a directory containing an executable file by that name.
-3. If the first character of the command is a slash (`\`) or dot (`.`) or either of the above searches was successful, the shell executes the named program with any remaining given arguments in a separate execution environment.
+Upon receiving a command, **hsh** tokenizes it into words using `" "` as a delimiter. The first word is treated as the command, and the subsequent words are considered as arguments for that command. **hsh** follows these actions:
+
+1. If the command's first character is neither a slash (`\`) nor dot (`.`), **hsh** checks if it is a built-in command. If a built-in with that name exists, it is invoked.
+
+2. If the command's first character is not a slash (`\`), dot (`.`), or built-in, **hsh** searches each directory in the **PATH** environmental variable for an executable file with that name.
+
+3. If the command's first character is a slash (`\`) or dot (`.`), or either of the above searches was successful, **hsh** executes the named program with any remaining arguments in a separate execution environment.
 
 ### Exit Status
 
-**hsh** returns the exit status of the last command executed, with zero indicating success and non-zero indicating failure.
+# Exit Status in hsh
 
-If a command is not found, the return status is `127`; if a command is found but is not executable, the return status is 126.
+**hsh** returns the exit status of the last command executed. A value of zero indicates successful execution, while a non-zero value signifies a failure.
 
-All builtins return zero on success and one or two on incorrect usage (indicated by a corresponding error message).
+- If a command is not found, the return status is `127`.
+- If a command is found but not executable, the return status is `126`.
+
+For built-in commands, a successful execution always results in a return value of zero. However, incorrect usage of a built-in command may lead to a return value of one or two, along with an appropriate error message.
