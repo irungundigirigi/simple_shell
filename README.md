@@ -110,8 +110,3 @@ Upon receiving a command, **hsh** tokenizes it into words using `" "` as a delim
 
 
 **hsh** returns the exit status of the last command executed. A value of zero indicates successful execution, while a non-zero value signifies a failure.
-
-- If a command is not found, the return status is `127`.
-- If a command is found but not executable, the return status is `126`.
-
-For built-in commands, a successful execution always results in a return value of zero. However, incorrect usage of a built-in command may lead to a return value of one or two, along with an appropriate error message.
